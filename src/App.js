@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+   Switch,
+   Route,
+   useLocation
+} from "react-router-dom";
+import Home from "./Home";
+import Contacts from "./Contacts";
+import Modal from "./Modal";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+   const location = useLocation();
+   const background = location.state && location.state.background;
+
+   return (
+      <div className="w-full bg-gray-200 px-4 relative">
+         <Switch location={background || location}>
+            <Route path="/" exact component={Home} />
+            <Route path="/contacts" exact component={Contacts} />
+         </Switch>
+
+         {background && <Route path="/contact/:name" children={<Modal />} />}
+      </div>
+   );
 }
-
-export default App;
